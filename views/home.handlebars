@@ -1,0 +1,13 @@
+<div>
+  <h1 class="text-center">Leaks</h1>
+  {{#each leaks}}
+    <div class="lead">
+      <span><strong>Title:</strong> {{this.title}}</span>
+      <br>
+      <span><strong>Description:</strong> {{this.intro}}</span>
+      <br>
+      <img src="{{this.img}}">
+      <br>
+    </div>
+  {{/each}}
+</div>
