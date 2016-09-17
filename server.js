@@ -6,6 +6,7 @@ var exphbs = require('express-handlebars');
 var app = express();
 var mongoose = require('mongoose');
 
+
 // use bodyParser
 app.use(bodyParser.urlencoded({
   extended: false
@@ -20,6 +21,8 @@ app.set('view engine', 'handlebars');
 
 mongoose.connect('mongodb://heroku_f17j6n1h:blueogdouua7dsgcs2dnkpvdms@ds019746.mlab.com:19746/heroku_f17j6n1h');
 var db = mongoose.connection;
+
+
 
 // show any mongoose errors
 db.on('error', function(err) {
@@ -49,6 +52,8 @@ request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
     titleArr.push(title);
   });
 
+  console.log(titleArr);
+
   $('div.intro').each(function(i, element) {
     var intro = $(this).text();
 
@@ -62,7 +67,6 @@ request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
     } else {
       imgArr.push("https://wikileaks.org/" + img);
     }
-    console.log(imgArr);
   })
 });
 // Matt tip: use the heroku scheduler add-on to create leaks every day
@@ -72,7 +76,9 @@ request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
 app.get('/create-leaks', function(req, res) {
   Leak.remove({}, function() {
     for (var i = 0; i < titleArr.length; i++) {
-      Leak.create({title: titleArr[i], intro: introArr[i], img: imgArr[i]}, function(err, leak) {
+      var isEven = true;
+      if (i%2 == 0) {isEven = true} else {isEven = false};
+      Leak.create({isEven: isEven, title: titleArr[i], intro: introArr[i], img: imgArr[i]}, function(err, leak) {
         if (err) return handleError(err);
         // console.log(leak);
         // leak saved!
@@ -88,7 +94,6 @@ app.get('/', function(req, res) {
     // console.log(leaks);
     if (err) console.log (err)
     else res.render('home', {leaks: leaks});
-    console.log(imgArr);
   });
 });
 

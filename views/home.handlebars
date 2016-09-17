@@ -1,13 +1,36 @@
 <div>
   <h1 class="text-center">Leaks</h1>
+  <div class="row">
   {{#each leaks}}
-    <div class="lead">
-      <span><strong>Title:</strong> {{this.title}}</span>
-      <br>
-      <span><strong>Description:</strong> {{this.intro}}</span>
-      <br>
-      <img src="{{this.img}}">
-      <br>
-    </div>
+    {{#if this.isEven}}
+      <div class="row">
+      <div class="col-sm-6">
+        <div class="lead">
+          <span><strong>Title:</strong> {{this.title}}</span>
+          <br>
+          <span><strong>Description:</strong> {{this.intro}}</span>
+          <br>
+        </div>
+        <img src="{{this.img}}">
+        <br>
+        <button class="btn btn-default">Add a Comment</button>
+        <br>
+      </div>
+    {{else}}
+      <div class="col-sm-6">
+        <div class="lead">
+          <span><strong>Title:</strong> {{this.title}}</span>
+          <br>
+          <span><strong>Description:</strong> {{this.intro}}</span>
+          <br>
+        </div>
+        <img src="{{this.img}}">
+        <br>
+        <button class="btn btn-default">Add a Comment</button>
+        <br>
+      </div>
+      </div>
+    {{/if}}
   {{/each}}
+  </div>
 </div>
