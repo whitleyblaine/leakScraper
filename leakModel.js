@@ -1,5 +1,5 @@
 /* MODEL INSTRUCTIONS:
- * Scroll below the schema in this file 
+ * Scroll below the schema in this file
  * and create the custom methods we're looking for.
  * -/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/ */
 
@@ -13,10 +13,7 @@ var Schema = mongoose.Schema;
 
 // new Schema: UserSchema
 var leakSchema = new Schema({
-  isEven: {
-    type: Boolean
-  },
-  title: {
+   title: {
     type: String,
     trim: true
   },

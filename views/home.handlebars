@@ -1,36 +1,47 @@
-<div>
-  <h1 class="text-center">Leaks</h1>
-  <div class="row">
+<h1 class="text-center">Leaks</h1>
+
+
+<div class="leakSlider">
   {{#each leaks}}
-    {{#if this.isEven}}
-      <div class="row">
-      <div class="col-sm-6">
-        <div class="lead">
-          <span><strong>Title:</strong> {{this.title}}</span>
-          <br>
-          <span><strong>Description:</strong> {{this.intro}}</span>
-          <br>
-        </div>
-        <img src="{{this.img}}">
-        <br>
-        <button class="btn btn-default">Add a Comment</button>
-        <br>
-      </div>
-    {{else}}
-      <div class="col-sm-6">
-        <div class="lead">
-          <span><strong>Title:</strong> {{this.title}}</span>
-          <br>
-          <span><strong>Description:</strong> {{this.intro}}</span>
-          <br>
-        </div>
-        <img src="{{this.img}}">
-        <br>
-        <button class="btn btn-default">Add a Comment</button>
-        <br>
-      </div>
-      </div>
-    {{/if}}
+    <div>
+      <span class="leakInfo"><strong>Title:</strong> {{this.title}}</span><br>
+      <div class="leakInfo description"><strong>Description:</strong> {{this.intro}}</div>
+      <img src="{{this.img}}" style="width: 500px">
+      {{!-- Comment Modal Trigger Button --}}
+      <button type="button" class="btn btn-default" id="commentButton" data-toggle="modal" data-target="#commentModal" data-leak="{{this._id}}">Add a Comment</button>
+    </div>
   {{/each}}
+</div>
+
+<div id="commentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Comments</h4>
+      </div>
+      <div class="modal-body">
+        {{#each comments}}
+          <span>{{this.comment}}</span>
+        {{/each}}
+
+        <form method='POST' action="/">
+          Pseudonym: <input type='text' name='name' id='name' /><br />
+
+          Comment:<br />
+          <textarea name='comment' id='comment'></textarea><br />
+
+          <input type='hidden' name='leak' id='leakId' value="" />
+
+          <input type='submit' value='Submit' />
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
   </div>
 </div>

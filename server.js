@@ -76,11 +76,8 @@ request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
 app.get('/create-leaks', function(req, res) {
   Leak.remove({}, function() {
     for (var i = 0; i < titleArr.length; i++) {
-      var isEven = true;
-      if (i%2 == 0) {isEven = true} else {isEven = false};
-      Leak.create({isEven: isEven, title: titleArr[i], intro: introArr[i], img: imgArr[i]}, function(err, leak) {
+      Leak.create({title: titleArr[i], intro: introArr[i], img: imgArr[i]}, function(err, leak) {
         if (err) return handleError(err);
-        // console.log(leak);
         // leak saved!
       });
     };
@@ -91,12 +88,18 @@ app.get('/create-leaks', function(req, res) {
 
 app.get('/', function(req, res) {
   Leak.find({}).exec(function(err, leaks) {
-    // console.log(leaks);
+    console.log(leaks);
     if (err) console.log (err)
     else res.render('home', {leaks: leaks});
   });
 });
 
+app.post('/', function(req, res) {
+  console.log(req.body);
+  var id = req.leak;
+  var comment = req.comment;
+  Leak.update({ '_id': id }, {'$push': {'comments': comment}});
+})
 
 
 app.listen(process.env.port || 3000);
