@@ -96,9 +96,18 @@ app.get('/', function(req, res) {
 
 app.post('/', function(req, res) {
   console.log(req.body);
-  var id = req.leak;
-  var comment = req.comment;
-  Leak.update({ '_id': id }, {'$push': {'comments': comment}});
+  var id = req.body.leak;
+  console.log('id: ' + id);
+  var user = req.body.user;
+  var comment = req.body.comment;
+  Leak.findOneAndUpdate(
+    {_id: id},
+    {$push: {comments: {user: user, comment: comment}}},
+    {safe: true, upsert: true},
+    function(err, model) {
+      console.log('error: ' + err)
+    }
+  );
 })
 
 

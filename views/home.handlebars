@@ -9,6 +9,22 @@
       <img src="{{this.img}}" style="width: 500px">
       {{!-- Comment Modal Trigger Button --}}
       <button type="button" class="btn btn-default" id="commentButton" data-toggle="modal" data-target="#commentModal" data-leak="{{this._id}}">Add a Comment</button>
+
+      {{this.comments}}
+
+      {{#if this.comments}}
+        <h2>Comments</h2>
+
+        {{#each this.comments}}
+
+          <div>
+            User: {{user}}
+            Comment: {{comment}}
+          </div>
+
+        {{/each}}
+
+      {{/if}}
     </div>
   {{/each}}
 </div>
@@ -20,7 +36,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Comments</h4>
+        <h4 class="modal-title">Add a comment</h4>
       </div>
       <div class="modal-body">
         {{#each comments}}
@@ -28,7 +44,7 @@
         {{/each}}
 
         <form method='POST' action="/">
-          Pseudonym: <input type='text' name='name' id='name' /><br />
+          Pseudonym: <input type='text' name='user' id='user' /><br />
 
           Comment:<br />
           <textarea name='comment' id='comment'></textarea><br />

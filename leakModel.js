@@ -25,7 +25,10 @@ var leakSchema = new Schema({
     type: String,
     trim: true
   },
-  comments: [String]
+  comments: [{
+    user: {type: String, trim: true},
+    comment: {type: String, trim: true}
+  }]
 });
 
 var Leak = mongoose.model('Leak', leakSchema);
