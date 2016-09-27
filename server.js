@@ -69,8 +69,6 @@ request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
     }
   })
 });
-// Matt tip: use the heroku scheduler add-on to create leaks every day
-
 
 // Routes
 app.get('/create-leaks', function(req, res) {
@@ -108,6 +106,7 @@ app.post('/', function(req, res) {
       console.log('error: ' + err)
     }
   );
+  res.redirect('back');
 })
 
 
