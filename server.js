@@ -19,7 +19,7 @@ app.use(express.static('public'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-mongoose.connect('mongodb://heroku_f17j6n1h:blueogdouua7dsgcs2dnkpvdms@ds019746.mlab.com:19746/heroku_f17j6n1h');
+mongoose.connect('mongodb://heroku_64v4zxw4:otvslm324h9qdo9kjftoh3euln@ds041556.mlab.com:41556/heroku_64v4zxw4');
 var db = mongoose.connection;
 
 
