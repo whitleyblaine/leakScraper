@@ -11,9 +11,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-// new Schema: UserSchema
 var leakSchema = new Schema({
-   title: {
+  title: {
     type: String,
     trim: true
   },

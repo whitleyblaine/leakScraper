@@ -5,3 +5,17 @@
 .description {
   width: 40%;
 }
+
+.leakSlider {
+  width: 60%;
+  margin-left: 25%;
+  margin-top: 2em;
+}
+
+.slick-arrow {
+  margin: 1em 0;
+}
+
+.slick-next {
+  float: right;
+}

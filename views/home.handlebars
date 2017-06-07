@@ -8,7 +8,7 @@
       <div class="leakInfo description"><strong>Description:</strong> {{this.intro}}</div>
       <img src="{{this.img}}" style="width: 500px">
       {{!-- Comment Modal Trigger Button --}}
-      <button type="button" class="btn btn-default commentButton" data-toggle="modal" data-target="#commentModal" data-leak="{{this._id}}">Add a Comment</button>
+      <button type="button" class="btn btn-success commentButton" data-toggle="modal" data-target="#commentModal" data-leak="{{this._id}}">Add a Comment</button>
 
       {{#if this.comments}}
         <h2>Comments</h2>
@@ -16,8 +16,8 @@
         {{#each this.comments}}
 
           <div>
-            User: {{user}}<br>
-            Comment: {{comment}}
+            <h4>User:</h4> {{user}}<br>
+            <h4>Comment:</h4> {{comment}}
           </div>
           <br>
 

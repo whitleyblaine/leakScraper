@@ -19,7 +19,7 @@ app.use(express.static('public'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-mongoose.connect('mongodb://heroku_64v4zxw4:otvslm324h9qdo9kjftoh3euln@ds041556.mlab.com:41556/heroku_64v4zxw4');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/leakscraper');
 var db = mongoose.connection;
 
 
@@ -36,6 +36,7 @@ db.once('open', function() {
 
 // Require our userModel model
 var Leak = require('./leakModel.js');
+console.log(Leak);
 
 var leaksArr;
 
