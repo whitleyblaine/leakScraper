@@ -36,7 +36,6 @@ db.once('open', function() {
 
 // Require our userModel model
 var Leak = require('./leakModel.js');
-console.log(Leak);
 
 var leaksArr;
 
@@ -72,6 +71,11 @@ request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
 });
 
 // Routes
+app.get('/remove-leaks', function(req, res) {
+  Leak.remove({});
+  res.send('ok');
+});
+
 app.get('/create-leaks', function(req, res) {
   Leak.remove({}, function() {
     for (var i = 0; i < titleArr.length; i++) {
@@ -87,7 +91,7 @@ app.get('/create-leaks', function(req, res) {
 
 app.get('/', function(req, res) {
   Leak.find({}).exec(function(err, leaks) {
-    console.log(leaks);
+    console.log(leaks); 
     if (err) console.log (err)
     else res.render('home', {leaks: leaks});
   });
