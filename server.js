@@ -44,6 +44,7 @@ var titleArr = [];
 var introArr = [];
 var imgArr = [];
 var dateArr = [];
+var dateStringArr = [];
 
 request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
   var $ = cheerio.load(html);
@@ -72,9 +73,10 @@ request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
   })
 
   $('div.timestamp').each(function(i, element) {
-    var date = $(this).text();
-    var momentDate = moment(date, "DD MMM YYYY");
-    dateArr.push(momentDate);
+    var dateString = $(this).text();
+    var date = moment(dateString, "DD MMM YYYY");
+    dateArr.push(date);
+    dateStringArr.push(dateString);
   })
 });
 
@@ -83,7 +85,7 @@ request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
 app.get('/create-leaks', function(req, res) {
   Leak.remove({}, function() {
     for (var i = 0; i < titleArr.length; i++) {
-      Leak.create({title: titleArr[i], intro: introArr[i], img: imgArr[i], date: dateArr[i]}, function(err, leak) {
+      Leak.create({title: titleArr[i], intro: introArr[i], img: imgArr[i], dateString: dateStringArr[i], date: dateArr[i]}, function(err, leak) {
         if (err) return handleError(err);
         // leak saved!
       });
@@ -95,7 +97,7 @@ app.get('/create-leaks', function(req, res) {
 
 app.get('/', function(req, res) {
   Leak.find({}).sort('-date').exec(function(err, leaks) {
-    console.log(leaks); 
+    console.log(leaks);
     if (err) console.log (err)
     else res.render('home', {leaks: leaks});
   });

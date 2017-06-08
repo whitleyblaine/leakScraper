@@ -24,6 +24,10 @@ var leakSchema = new Schema({
     type: String,
     trim: true
   },
+  dateString: {
+    type: String,
+    trim: true
+  },
   date: {
     type: Date
   },
