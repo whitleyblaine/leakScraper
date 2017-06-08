@@ -1,6 +1,9 @@
 {
   "name": "leak-scraper",
   "version": "1.0.0",
+  "engines": {
+    "node": "7.9.0"
+  }
   "description": "RCB Homework using Mongoose and Cheerio",
   "main": "index.js",
   "scripts": {
