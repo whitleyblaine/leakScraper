@@ -24,6 +24,9 @@ var leakSchema = new Schema({
     type: String,
     trim: true
   },
+  date: {
+    type: Date
+  },
   comments: [{
     user: {type: String, trim: true},
     comment: {type: String, trim: true}
