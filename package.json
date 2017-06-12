@@ -21,12 +21,19 @@
   },
   "homepage": "https://github.com/whitleyblaine/leakScraper#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.15.2",
     "cheerio": "^0.22.0",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.3",
+    "express-validator": "^3.2.0",
     "moment": "^2.18.1",
     "mongoose": "^4.10.5",
-    "request": "^2.74.0"
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "request": "^2.74.0",
+    "util": "^0.10.3"
   }
 }

@@ -1,29 +1,46 @@
-var request = require('request');
-var cheerio = require('cheerio');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var path = require('path');
 var express = require('express');
 var exphbs = require('express-handlebars');
 var app = express();
 var mongoose = require('mongoose');
-var moment = require('moment');
+var passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy
+var expressValidator = require('express-validator');
+var routes = require('./routes/index');
+var users = require('./routes/users');
+var flash = require('connect-flash');
 
-
-// use bodyParser
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-
-// make public a static dir
-app.use(express.static('public'));
-
-// handlebars setup
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/leakscraper');
 var db = mongoose.connection;
 
 
+// View Engine
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', exphbs({defaultLayout:'main'}));
+app.set('view engine', 'handlebars');
+
+// BodyParser Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// Set Static Folder
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Express Session
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
 
 // show any mongoose errors
 db.on('error', function(err) {
@@ -35,90 +52,47 @@ db.once('open', function() {
   console.log('Mongoose connection successful.');
 });
 
-// Require our userModel model
-var Leak = require('./leakModel.js');
+// Express Validator
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root = namespace.shift()
+      , formParam = root;
 
-var leaksArr;
-
-var titleArr = [];
-var introArr = [];
-var imgArr = [];
-var dateArr = [];
-var dateStringArr = [];
-
-request('https://wikileaks.org/-Leaks-.html', function(err, res, html) {
-  var $ = cheerio.load(html);
-
-  $('h2.title').each(function(i, element) {
-    var title = $(this).text();
-
-    titleArr.push(title);
-  });
-
-  console.log(titleArr);
-
-  $('div.intro').each(function(i, element) {
-    var intro = $(this).text();
-
-    introArr.push(intro);
-  });
-
-  $('img.spip_logos').each(function(i, element) {
-    var img = $(this).attr('src');
-    if (img.charAt(0) === '/') {
-      imgArr.push("https://wikileaks.org" + img);
-    } else {
-      imgArr.push("https://wikileaks.org/" + img);
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
     }
-  })
+    return {
+      param : formParam,
+      msg : msg,
+      value : value
+    };
+  }
+}));
 
-  $('div.timestamp').each(function(i, element) {
-    var dateString = $(this).text();
-    var date = moment(dateString, "DD MMM YYYY");
-    dateArr.push(date);
-    dateStringArr.push(dateString);
-  })
+// Express Session
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+// Connect Flash
+app.use(flash());
+
+// Global Vars
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error'); 
+  res.locals.user = req.user || null;
+  next();
 });
 
 // Routes
-
-app.get('/create-leaks', function(req, res) {
-  Leak.remove({}, function() {
-    for (var i = 0; i < titleArr.length; i++) {
-      Leak.create({title: titleArr[i], intro: introArr[i], img: imgArr[i], dateString: dateStringArr[i], date: dateArr[i]}, function(err, leak) {
-        if (err) return handleError(err);
-        // leak saved!
-      });
-    };
-    res.send('ok');
-  })
-});
-
-
-app.get('/', function(req, res) {
-  Leak.find({}).sort('-date').exec(function(err, leaks) {
-    console.log(leaks);
-    if (err) console.log (err)
-    else res.render('home', {leaks: leaks});
-  });
-});
-
-app.post('/', function(req, res) {
-  console.log(req.body);
-  var id = req.body.leak;
-  console.log('id: ' + id);
-  var user = req.body.user;
-  var comment = req.body.comment;
-  Leak.findOneAndUpdate(
-    {_id: id},
-    {$push: {comments: {user: user, comment: comment}}},
-    {safe: true, upsert: true},
-    function(err, model) {
-      console.log('error: ' + err)
-    }
-  );
-  res.redirect('back');
-})
+app.use('/', routes);
+app.use('/', users);
 
 
 app.listen(process.env.PORT || 3000);
+

@@ -24,7 +24,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Leaks <span class="sr-only">(current)</span></a></li>
+          <li><a href="/">Leaks</a></li>
+          <li><a href="/login">Log In</a></li>
+          <li><a href="/register">Register</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -54,12 +56,12 @@
       $('.slick-next').insertAfter($('.slick-prev'));
       $('.slick-prev').addClass('btn-default');
       $('.slick-next').addClass('btn-default');
-    });
 
-    $('.commentButton').on('click', function() {
-      var id = $(this).attr('data-leak');
-      $('#leakId').val(id);
-    })
+      $('.commentButton').on('click', function() {
+        var id = $(this).attr('data-leak');
+        $('#leakId').val(id);
+      });
+    });
   </script>
 
 </body>
