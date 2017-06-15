@@ -24,9 +24,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/">Leaks</a></li>
-          <li><a href="/login">Log In</a></li>
-          <li><a href="/register">Register</a></li>
+          <li class="{{#if active.leaks}}active{{/if}}"><a href="/">Leaks</a></li>
+          <li class="{{#if active.login}}active{{/if}}"><a href="/login">Log In</a></li>
+          <li class="{{#if active.register}}active{{/if}}"><a href="/register">Register</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
